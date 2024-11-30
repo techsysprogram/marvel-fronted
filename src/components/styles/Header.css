@@ -2,7 +2,6 @@
   position: absolute;
   left: 50%; /* Positionne le coin gauche au milieu */
   transform: translateX(-50%); /* Reculer de la moitié de la largeur */
-
   max-width: 1024px;
   display: flex;
   align-items: center;
@@ -12,7 +11,6 @@
   color: white;
   font-family: "Comfortaa", sans-serif;
   position: relative;
-
   z-index: 5;
 }
 
@@ -25,7 +23,6 @@
   display: flex;
   gap: 1.5rem;
   transition: all 0.3s ease-in-out;
-
 }
 
 .navbar-links li a {
@@ -44,6 +41,38 @@
   border-radius: 8px;
 }
 
+.navbar-links li a.login-link,
+.navbar-links li a.logout-link {
+  display:inline; /* Inline-flex pour empêcher le bloc */
+  align-items: center; /* Centre verticalement l'icône et le texte */
+  justify-content: center; /* Centre horizontalement */
+  gap: 0.5rem; /* Ajoute un espace entre l'icône et le texte */
+  background-color: #005a0c; /* Vert sombre pour Login */
+  color: white; /* Texte blanc */
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: background-color 0.3s ease-in-out;
+  text-decoration: none; /* Supprime le soulignement */
+  white-space: nowrap; /* Empêche le texte de passer à la ligne */
+}
+
+.navbar-links li a.logout-link {
+  background-color: #710202; /* Rouge sombre pour Déconnexion */
+}
+
+/* Survol pour Login */
+.navbar-links li a.login-link:hover {
+  background-color: #058130; /* Vert encore plus sombre */
+  color: #f5f5f5; /* Texte légèrement éclairci */
+}
+
+/* Survol pour Déconnexion */
+.navbar-links li a.logout-link:hover {
+  background-color: #ab0909; /* Rouge encore plus sombre */
+  color: #f5f5f5; /* Texte légèrement éclairci */
+}
+
 .navbar-toggle {
   display: none;
   background: none;
@@ -52,6 +81,15 @@
   color: white;
   cursor: pointer;
 }
+
+.navbar-links li a.login-link svg,
+.navbar-links li a.logout-link svg {
+  vertical-align: middle; /* Centre verticalement l'icône */
+  display: inline-block; /* Assure que l'icône reste alignée avec le texte */
+  height: 1rem; /* Ajuste la taille de l'icône */
+  width: 1rem;
+}
+
 
 /* Responsive styles */
 @media (max-width: 768px) {

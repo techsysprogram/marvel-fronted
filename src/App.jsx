@@ -30,7 +30,14 @@ const App = () => {
 
   return (
     <Router>
-      <Header />
+      <Header
+        onLoginSuccess={() => {
+          // Actualise la page des favoris si tu es dans la page favorites
+          if (location.pathname === "/favorites") {
+              window.location.reload();
+          }
+        }}
+      />
       <div className="main-content">
         <SearchBarWrapper
           search={search}

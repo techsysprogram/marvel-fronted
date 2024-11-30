@@ -1,5 +1,4 @@
 import "./styles/Modal.css"; // Fichier CSS dédié pour la modale
-import FavoriteHeart from "./FavoriteHeart"; // Importer le cœur favori
 
 const Modal = ({ isOpen, onClose, comic }) => {
   if (!isOpen || !comic) return null;
@@ -21,10 +20,6 @@ const Modal = ({ isOpen, onClose, comic }) => {
               <h2>{comic.title}</h2>
               <p>{comic.description || "Aucune description disponible."}</p>
             </div>
-          </div>
-          {/* Cœur favori dans la modale */}
-          <div className="modal-favorite">
-            <FavoriteHeart characterOrComic={"comics"} itemId={comic._id} />
           </div>
         </div>
       </div>

@@ -6,8 +6,10 @@ import CharacterCard from "../components/CharacterCard";
 import Loader from "../components/Loader"; // Import du composant Loader
 import Notification from "../components/Notification"; // Import du composant Notification
 
-const Favorites = () => {
-  const [activeTab, setActiveTab] = useState(sessionStorage.getItem("select-favorie") || "characters");
+const Favorites = ({token}) => {
+  const [activeTab, setActiveTab] = useState(
+    sessionStorage.getItem("select-favorie") || "characters"
+  );
   const [favoritesCharacters, setFavoritesCharacters] = useState([]);
   const [favoritesComics, setFavoritesComics] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -98,28 +100,24 @@ const Favorites = () => {
             </button>
           </div>
 
-          {activeTab === "characters" && (
-            <div className="groupe-cards">
-              {favoritesCharacters.length > 0 ? (
-                favoritesCharacters.map((character) => (
-                  <CharacterCard key={character._id} character={character} />
-                ))
-              ) : (
+          {activeTab === "characters" ? (
+            favoritesCharacters.length > 0 ? (
+              <div className="groupe-cards">
+                {favoritesCharacters.map((character) => (
+                  <CharacterCard key={character._id} character={character} token={token} />
+                ))}
+              </div>
+            ) : (
                 <p>Aucun personnage favori.</p>
-              )}
-            </div>
-          )}
-
-          {activeTab === "comics" && (
+            )
+          ) : favoritesComics.length > 0 ? (
             <div className="groupe-cards">
-              {favoritesComics.length > 0 ? (
-                favoritesComics.map((comic) => (
-                  <ComicCard key={comic._id} comic={comic} onClick={openModal} />
-                ))
-              ) : (
-                <p>Aucun comic favori.</p>
-              )}
+              {favoritesComics.map((comic) => (
+                <ComicCard key={comic._id} comic={comic} onClick={openModal} token={token}/>
+              ))}
             </div>
+          ) : (
+              <p>Aucun comic favori.</p>
           )}
         </>
       )}

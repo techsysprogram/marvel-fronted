@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { ArrowLeft } from "lucide-react";
+import FavoriteHeart from "../components/FavoriteHeart";
 
 import Modal from "../components/Modal";
 
@@ -78,16 +79,18 @@ const CharacterDetails = () => {
           <h2>{textoInfo}</h2>
           <div className="groupe-cards">
             {comics.map((comic) => (
-              <div
-                key={comic._id}
-                onClick={() => openModal(comic)}
-                className="card"
-              >
-                <img
-                  src={`${comic.thumbnail.path}.${comic.thumbnail.extension}`}
-                  alt={comic.title}
-                />
-                <div className="card-content">
+              <div className="card" key={comic._id}>
+                <FavoriteHeart characterOrComic={"comics"} itemId={comic._id} />
+                <div
+                  className="card-content"
+                  onClick={() => {
+                    openModal(comic);
+                  }}
+                >
+                  <img
+                    src={`${comic.thumbnail.path}.${comic.thumbnail.extension}`}
+                    alt={comic.title}
+                  />
                   <h3>{comic.title}</h3>
                   <p>{comic.description || "Aucune description disponible."}</p>
                 </div>

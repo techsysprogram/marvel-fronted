@@ -6,7 +6,10 @@ import FavoriteHeart from "./FavoriteHeart";
 const CharacterCard = ({ character }) => {
   return (
     <div className="card">
-      <FavoriteHeart characterOrComic={"characters" } itemId={character._id} />
+      <FavoriteHeart
+        characterOrComic={"characters"}
+        itemId={character._id}
+      />
       <Link to={`/character/${character._id}`} className="card-content">
         <img
           src={`${character.thumbnail.path}.${character.thumbnail.extension}`}
@@ -20,4 +23,3 @@ const CharacterCard = ({ character }) => {
 };
 
 export default CharacterCard;
-

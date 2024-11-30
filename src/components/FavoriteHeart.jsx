@@ -1,16 +1,15 @@
 import { useState, useEffect } from "react";
 import { Heart } from "lucide-react";
 import axios from "axios";
-import Cookies from "js-cookie";
-import Loader from "../components/Loader"; 
-import Notification from "../components/Notification"; 
+import Loader from "../components/Loader";
+import Notification from "../components/Notification";
 import "./styles/FavoriteHeart.css";
+import Cookies from "js-cookie";
 
 const FavoriteHeart = ({ characterOrComic, itemId }) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const token = Cookies.get("marvel-token") || null;
 
   useEffect(() => {
     const favorites =
@@ -36,6 +35,8 @@ const FavoriteHeart = ({ characterOrComic, itemId }) => {
 
     setIsFavorite(!isFavorite);
 
+    //avant de sauvegarder les favoris, on vérifie si l'utilisateur est connecté
+    const token = Cookies.get("marvel-token");
     if (token) {
       setLoading(true);
       try {
@@ -46,7 +47,8 @@ const FavoriteHeart = ({ characterOrComic, itemId }) => {
             characters:
               characterOrComic === "characters"
                 ? updatedFavorites
-                : JSON.parse(sessionStorage.getItem("favorites-characters")) || [],
+                : JSON.parse(sessionStorage.getItem("favorites-characters")) ||
+                  [],
             comics:
               characterOrComic === "comics"
                 ? updatedFavorites
