@@ -1,0 +1,110 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8); /* Noir avec opacité */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal-container {
+    background-color: #000; /* Noir */
+    color: #ffffff; /* Rouge */
+    border: 1px solid #630303; /* Rouge */
+    border-radius: 10px;
+    padding: 25px;
+    max-width: 500px;
+    width: 90%;
+    max-height: 90vh;
+    box-shadow: 0 4px 10px rgba(255, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    font-family: "Comfortaa", sans-serif;
+  }
+  
+  .modal-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #ff0000; /* Rouge */
+  }
+  
+  .modal-close:hover {
+    color: #cc0000; /* Rouge foncé */
+  }
+  
+  .modal-header {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .modal-body-login {
+    width: 100%;
+    display: flex;
+    flex-direction: column; /* Changez 'row' en 'column' */
+    gap: 15px;
+    /* Vous pouvez supprimer 'background-color: aqua;' ou le conserver pour le débogage */
+  }
+  
+  .modal-body-login input {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #545353; /* Rouge */
+    border-radius: 5px;
+    background: #000; /* Noir */
+    color: #fff; /* Blanc */
+  }
+  
+  .modal-body-login input::placeholder {
+    color: #aaa;
+  }
+  
+  .modal-submit {
+    background-color: #30803d; /* Rouge */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 100%;
+  }
+  
+  .modal-submit:hover {
+    background-color: #035d07; /* Rouge foncé */
+  }
+  
+  .error-message {
+    color: #ff0000; /* Rouge */
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .modal-footer {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .modal-footer a {
+    color: #fdfdfd; /* Rouge */
+    cursor: pointer;
+    font-weight: bold;
+    text-decoration: none;
+  }
+  
+  .modal-footer a:hover {
+    color: #ffffff; /* Rouge foncé */
+  }
+  

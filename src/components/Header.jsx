@@ -1,10 +1,14 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./styles/Header.css";
-import imglogo from "../assets/img/marvel-logo.svg";
-
+import ModalLogin from "../components/ModalLogin";
+import ModalSignup from "../components/ModalSignup";
+import imgMarvel from "../assets/img/marvel-logo.svg";
+ 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showSignupModal, setShowSignupModal] = useState(false);
   const location = useLocation();
 
   return (
@@ -12,7 +16,7 @@ const Header = () => {
       <nav className="navbar">
         <div className="navbar-logo">
           <Link to="/">
-            <img src={imglogo} alt="Marvel Logo" />
+            <img src={imgMarvel} alt="Marvel Logo" />
           </Link>
         </div>
         <button
@@ -23,10 +27,7 @@ const Header = () => {
         </button>
         <ul className={`navbar-links ${menuOpen ? "open" : ""}`}>
           <li>
-            <Link
-              to="/"
-              className={location.pathname === "/" ? "active" : ""}
-            >
+            <Link to="/" className={location.pathname === "/" ? "active" : ""}>
               Personnages
             </Link>
           </li>
@@ -46,8 +47,35 @@ const Header = () => {
               Favoris
             </Link>
           </li>
+          <li>
+            <Link  onClick={() => setShowLoginModal(true)}>Login</Link>
+          </li>
         </ul>
       </nav>
+
+      {showLoginModal && (
+        <ModalLogin
+          onClose={() => setShowLoginModal(false)}
+          openSignup={() => {
+            setShowLoginModal(false);
+            setShowSignupModal(true);
+          }}
+          handleConnexionStatus={(token) => console.log("Token reçu :", token)}
+          urlGlobal="https://api.example.com"
+        />
+      )}
+
+      {showSignupModal && (
+        <ModalSignup
+          onClose={() => setShowSignupModal(false)}
+          openLogin={() => {
+            setShowSignupModal(false);
+            setShowLoginModal(true);
+          }}
+          handleConnexionStatus={(token) => console.log("Token reçu :", token)}
+          urlGlobal="https://api.example.com"
+        />
+      )}
     </section>
   );
 };
