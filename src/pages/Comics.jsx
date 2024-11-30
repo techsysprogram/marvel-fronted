@@ -27,7 +27,7 @@ const Comics = ({ search, limit, page, setTotalCount }) => {
       setComics(response.data.results);
       setTotalCount(response.data.count);
 
-      setError(null); // Réinitialise les erreurs si la requête réussit
+      setError(null); 
       setLoading(false);
     } catch (err) {
       setError(err.message);

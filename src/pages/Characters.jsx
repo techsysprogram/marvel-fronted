@@ -23,10 +23,10 @@ const Characters = ({ search, limit, page, setTotalCount }) => {
       // Met à jour les personnages et le total des résultats
       setCharacters(response.data.results);
       setTotalCount(response.data.count); // Passe totalCount à App.jsx
-      setError(null); // Réinitialise l'erreur si la requête réussit
+      setError(null); 
       setLoading(false);
     } catch (err) {
-      setError(err.message); // Définit le message d'erreur
+      setError(err.message); 
       setLoading(false);
     }
   };

@@ -7,7 +7,7 @@ import Loader from "../components/Loader"; // Import du composant Loader
 import Notification from "../components/Notification"; // Import du composant Notification
 
 const Favorites = () => {
-  const [activeTab, setActiveTab] = useState("characters");
+  const [activeTab, setActiveTab] = useState(sessionStorage.getItem("select-favorie") || "characters");
   const [favoritesCharacters, setFavoritesCharacters] = useState([]);
   const [favoritesComics, setFavoritesComics] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -22,9 +22,9 @@ const Favorites = () => {
       const baseURL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
       const favoritesCharactersIds =
-        JSON.parse(localStorage.getItem("favorites-characters")) || [];
+        JSON.parse(sessionStorage.getItem("favorites-characters")) || [];
       const favoritesComicsIds =
-        JSON.parse(localStorage.getItem("favorites-comics")) || [];
+        JSON.parse(sessionStorage.getItem("favorites-comics")) || [];
 
       const charactersPromises = favoritesCharactersIds.map((id) =>
         axios.get(`${baseURL}/character/${id}`)
@@ -65,12 +65,14 @@ const Favorites = () => {
     setError(null); // Réinitialise l'erreur
   };
 
+  useEffect(() => {
+    sessionStorage.setItem("select-favorie", activeTab);
+  }, [activeTab]);
+
   return (
     <div className="favorites-container">
-      {/* Affichage du Loader */}
       {loading && <Loader />}
 
-      {/* Notification en cas d'erreur */}
       {error && (
         <Notification
           message={`Erreur : ${error}`}
@@ -79,7 +81,6 @@ const Favorites = () => {
         />
       )}
 
-      {/* Contenu principal */}
       {!loading && !error && (
         <>
           <div className="tabs">
@@ -123,7 +124,6 @@ const Favorites = () => {
         </>
       )}
 
-      {/* Modal */}
       <Modal isOpen={isModalOpen} onClose={closeModal} comic={selectedComic} />
     </div>
   );

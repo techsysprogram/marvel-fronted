@@ -4,22 +4,23 @@ import Loader from "../components/Loader";
 import Notification from "../components/Notification"; // Import du composant Notification
 import "./styles/ModalLogin.css";
 
-const ModalSignup = ({ onClose, handleConnexionStatus, urlGlobal, openLogin }) => {
+const ModalSignup = ({ onClose, handleConnexionStatus, openLogin }) => {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
-    newsletter: false,
   });
   const [errorMessage, setErrorMessage] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
+
+
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: value, 
     }));
   };
 
@@ -29,7 +30,8 @@ const ModalSignup = ({ onClose, handleConnexionStatus, urlGlobal, openLogin }) =
     setSuccessMessage(null);
     setIsLoading(true);
     try {
-      const response = await axios.post(`${urlGlobal}/user/signup`, formData);
+      const baseURL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+      const response = await axios.post(`${baseURL}/user/signup`, formData);
       handleConnexionStatus(response.data.token);
       setSuccessMessage("Inscription réussie !");
       onClose(); // Fermer le modal après une inscription réussie
@@ -79,15 +81,6 @@ const ModalSignup = ({ onClose, handleConnexionStatus, urlGlobal, openLogin }) =
             value={formData.password}
             onChange={handleChange}
           />
-          <div>
-            <input
-              type="checkbox"
-              name="newsletter"
-              checked={formData.newsletter}
-              onChange={handleChange}
-            />
-            <span>S'inscrire à notre newsletter</span>
-          </div>
           <button type="submit" className="modal-submit">
             S'inscrire
           </button>

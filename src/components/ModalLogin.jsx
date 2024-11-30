@@ -4,7 +4,7 @@ import Loader from "../components/Loader";
 import Notification from "../components/Notification"; // Import du composant Notification
 import "./styles/ModalLogin.css";
 
-const ModalLogin = ({ onClose, handleConnexionStatus, urlGlobal, openSignup }) => {
+const ModalLogin = ({ onClose, handleConnexionStatus, openSignup }) => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [errorMessage, setErrorMessage] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
@@ -24,10 +24,11 @@ const ModalLogin = ({ onClose, handleConnexionStatus, urlGlobal, openSignup }) =
     setSuccessMessage(null);
     setIsLoading(true);
     try {
-      const response = await axios.post(`${urlGlobal}/user/login`, formData);
+      const baseURL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+      const response = await axios.post(`${baseURL}/user/login`, formData);
       handleConnexionStatus(response.data.token);
       setSuccessMessage("Connexion réussie !");
-      onClose(); // Ferme le modal après une connexion réussie
+      onClose();
     } catch (error) {
       setErrorMessage(
         error.response?.data?.message || "Une erreur est survenue."

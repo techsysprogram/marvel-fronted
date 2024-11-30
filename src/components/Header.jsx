@@ -1,15 +1,86 @@
-import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./styles/Header.css";
 import ModalLogin from "../components/ModalLogin";
 import ModalSignup from "../components/ModalSignup";
+import Notification from "../components/Notification"; 
+import Loader from "../components/Loader";
 import imgMarvel from "../assets/img/marvel-logo.svg";
- 
+import Cookies from "js-cookie";
+import axios from "axios";
+
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showSignupModal, setShowSignupModal] = useState(false);
+  const [token, setToken] = useState(Cookies.get("marvel-token") || null);
+  const [notification, setNotification] = useState({
+    message: "",
+    type: "",
+    visible: false,
+  });
+  const [loading, setLoading] = useState(false);
+
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const baseURL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+
+  // Fonction pour charger les données
+  const fetchFavorites = async () => {
+    if (!token) return;
+
+    setLoading(true);
+    try {
+      const response = await axios.get(`${baseURL}/favorite/get`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const { characters, comics } = response.data;
+
+      sessionStorage.setItem("favorites-characters", JSON.stringify(characters));
+      sessionStorage.setItem("favorites-comics", JSON.stringify(comics));
+    } catch (err) {
+      setNotification({
+        message: "Erreur lors du chargement des favoris.",
+        type: "error",
+        visible: true,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Gestion de la navigation entre les pages
+  useEffect(() => {
+    if (location.pathname === "/favorites") {
+      fetchFavorites();
+    }
+  }, [location.pathname]);
+
+  const handleConnexionStatus = (token) => {
+    if (token === null) {
+      Cookies.remove("marvel-token");
+      setNotification({
+        message: "Vous êtes déconnecté(e)",
+        type: "error",
+        visible: true,
+      });
+    } else {
+      Cookies.set("marvel-token", token, { expires: 14 });
+      setNotification({
+        message: "Connexion réussie ! Bienvenue.",
+        type: "success",
+        visible: true,
+      });
+    }
+    setToken(token);
+  };
+
+  const handleNotificationClose = () => {
+    setNotification((prev) => ({ ...prev, visible: false }));
+  };
 
   return (
     <section>
@@ -48,10 +119,23 @@ const Header = () => {
             </Link>
           </li>
           <li>
-            <Link  onClick={() => setShowLoginModal(true)}>Login</Link>
+            {token ? (
+              <Link
+                onClick={() => {
+                  handleConnexionStatus(null); // Déconnexion
+                  navigate("/"); // Retour à l'accueil après déconnexion
+                }}
+              >
+                Déconnexion
+              </Link>
+            ) : (
+              <Link onClick={() => setShowLoginModal(true)}>Login</Link>
+            )}
           </li>
         </ul>
       </nav>
+
+      {loading && <Loader />} {/* Affiche le Loader si loading est true */}
 
       {showLoginModal && (
         <ModalLogin
@@ -60,8 +144,7 @@ const Header = () => {
             setShowLoginModal(false);
             setShowSignupModal(true);
           }}
-          handleConnexionStatus={(token) => console.log("Token reçu :", token)}
-          urlGlobal="https://api.example.com"
+          handleConnexionStatus={handleConnexionStatus}
         />
       )}
 
@@ -72,8 +155,16 @@ const Header = () => {
             setShowSignupModal(false);
             setShowLoginModal(true);
           }}
-          handleConnexionStatus={(token) => console.log("Token reçu :", token)}
-          urlGlobal="https://api.example.com"
+          handleConnexionStatus={handleConnexionStatus}
+        />
+      )}
+
+      {/* Notification */}
+      {notification.visible && (
+        <Notification
+          message={notification.message}
+          type={notification.type}
+          onClose={handleNotificationClose}
         />
       )}
     </section>
