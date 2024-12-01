@@ -13,13 +13,13 @@ const FavoriteHeart = ({ characterOrComic, itemId }) => {
 
   useEffect(() => {
     const favorites =
-      JSON.parse(sessionStorage.getItem(`favorites-${characterOrComic}`)) || [];
+      JSON.parse(localStorage.getItem(`favorites-${characterOrComic}`)) || [];
     setIsFavorite(favorites.includes(itemId));
   }, [itemId, characterOrComic]);
 
   const toggleFavorite = async () => {
     const favorites =
-      JSON.parse(sessionStorage.getItem(`favorites-${characterOrComic}`)) || [];
+      JSON.parse(localStorage.getItem(`favorites-${characterOrComic}`)) || [];
     let updatedFavorites;
 
     if (isFavorite) {
@@ -28,7 +28,7 @@ const FavoriteHeart = ({ characterOrComic, itemId }) => {
       updatedFavorites = [...favorites, itemId];
     }
 
-    sessionStorage.setItem(
+    localStorage.setItem(
       `favorites-${characterOrComic}`,
       JSON.stringify(updatedFavorites)
     );
@@ -47,12 +47,12 @@ const FavoriteHeart = ({ characterOrComic, itemId }) => {
             characters:
               characterOrComic === "characters"
                 ? updatedFavorites
-                : JSON.parse(sessionStorage.getItem("favorites-characters")) ||
+                : JSON.parse(localStorage.getItem("favorites-characters")) ||
                   [],
             comics:
               characterOrComic === "comics"
                 ? updatedFavorites
-                : JSON.parse(sessionStorage.getItem("favorites-comics")) || [],
+                : JSON.parse(localStorage.getItem("favorites-comics")) || [],
           },
           {
             headers: {

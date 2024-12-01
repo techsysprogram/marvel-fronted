@@ -39,11 +39,8 @@ const Header = ({ onLoginSuccess }) => {
         },
       });
       const { characters, comics } = response.data;
-      sessionStorage.setItem(
-        "favorites-characters",
-        JSON.stringify(characters)
-      );
-      sessionStorage.setItem("favorites-comics", JSON.stringify(comics));
+      localStorage.setItem("favorites-characters", JSON.stringify(characters));
+      localStorage.setItem("favorites-comics", JSON.stringify(comics));
     } catch (err) {
       setNotification({
         message: "Erreur lors du chargement des favoris.",

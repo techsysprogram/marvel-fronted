@@ -6,9 +6,9 @@ import CharacterCard from "../components/CharacterCard";
 import Loader from "../components/Loader"; // Import du composant Loader
 import Notification from "../components/Notification"; // Import du composant Notification
 
-const Favorites = ({token}) => {
+const Favorites = ({ token }) => {
   const [activeTab, setActiveTab] = useState(
-    sessionStorage.getItem("select-favorie") || "characters"
+    localStorage.getItem("select-favorie") || "characters"
   );
   const [favoritesCharacters, setFavoritesCharacters] = useState([]);
   const [favoritesComics, setFavoritesComics] = useState([]);
@@ -24,9 +24,9 @@ const Favorites = ({token}) => {
       const baseURL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
       const favoritesCharactersIds =
-        JSON.parse(sessionStorage.getItem("favorites-characters")) || [];
+        JSON.parse(localStorage.getItem("favorites-characters")) || [];
       const favoritesComicsIds =
-        JSON.parse(sessionStorage.getItem("favorites-comics")) || [];
+        JSON.parse(localStorage.getItem("favorites-comics")) || [];
 
       const charactersPromises = favoritesCharactersIds.map((id) =>
         axios.get(`${baseURL}/character/${id}`)
@@ -68,7 +68,7 @@ const Favorites = ({token}) => {
   };
 
   useEffect(() => {
-    sessionStorage.setItem("select-favorie", activeTab);
+    localStorage.setItem("select-favorie", activeTab);
   }, [activeTab]);
 
   return (
@@ -104,20 +104,29 @@ const Favorites = ({token}) => {
             favoritesCharacters.length > 0 ? (
               <div className="groupe-cards">
                 {favoritesCharacters.map((character) => (
-                  <CharacterCard key={character._id} character={character} token={token} />
+                  <CharacterCard
+                    key={character._id}
+                    character={character}
+                    token={token}
+                  />
                 ))}
               </div>
             ) : (
-                <p>Aucun personnage favori.</p>
+              <p>Aucun personnage favori.</p>
             )
           ) : favoritesComics.length > 0 ? (
             <div className="groupe-cards">
               {favoritesComics.map((comic) => (
-                <ComicCard key={comic._id} comic={comic} onClick={openModal} token={token}/>
+                <ComicCard
+                  key={comic._id}
+                  comic={comic}
+                  onClick={openModal}
+                  token={token}
+                />
               ))}
             </div>
           ) : (
-              <p>Aucun comic favori.</p>
+            <p>Aucun comic favori.</p>
           )}
         </>
       )}

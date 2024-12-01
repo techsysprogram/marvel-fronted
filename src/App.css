@@ -97,8 +97,9 @@ button {
 
 .groupe-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   gap: 20px;
+  /* background-color: aqua; */
 }
 
 .favorites-container p{
@@ -223,17 +224,11 @@ button {
   html {
     font-size: 14px;
   }
-  .groupe-cards {
-    padding: 0px 2rem;
-  }
 }
 
 @media (max-width: 480px) {
   html {
     font-size: 13px;
-  }
-  .groupe-cards {
-    padding: 0px 3rem;
   }
 }
 
